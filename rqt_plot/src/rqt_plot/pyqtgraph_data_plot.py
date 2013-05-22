@@ -45,6 +45,7 @@ class PyQtGraphDataPlot(QWidget):
         self._plot_widget = PlotWidget()
         self._plot_widget.setBackground((255, 255, 255))
         self._plot_widget.setXRange(0, 10, padding=0)
+        self.legend = self._plot_widget.addLegend()
         vbox = QVBoxLayout()
         vbox.addWidget(self._plot_widget)
         self.setLayout(vbox)
@@ -70,6 +71,7 @@ class PyQtGraphDataPlot(QWidget):
             self._update_legend()
 
     def _update_legend(self):
+    	# TODO Figure this out
         pass
 
     @Slot(str, list, list)

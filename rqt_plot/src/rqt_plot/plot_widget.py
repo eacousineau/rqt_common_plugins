@@ -149,6 +149,12 @@ class PlotWidget(QWidget):
     def on_subscribe_topic_button_clicked(self):
         self.add_topic(str(self.topic_edit.text()))
 
+    @Slot()
+    def on_mass_button_clicked(self):
+        topics = str(self.mass_edit.toPlainText()).split()
+        for topic in topics:
+        	self.add_topic(topic)
+
     @Slot(bool)
     def on_pause_button_clicked(self, checked):
         self.enable_timer(not checked)
