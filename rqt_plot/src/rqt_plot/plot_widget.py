@@ -69,6 +69,7 @@ class PlotWidget(QWidget):
 
         self._start_time = rospy.get_time()
         self._rosdata = {}
+        self._ordered_topics = []
         self._remove_topic_menu = QMenu()
 
         # init and start update timer for plot
@@ -199,6 +200,7 @@ class PlotWidget(QWidget):
             qWarning('PlotWidget.add_topic(): topic already subscribed: %s' % topic_name)
             return
 
+        self._ordered_topics.append(topic_name)
         self._rosdata[topic_name] = ROSData(topic_name, self._start_time)
         data_x, data_y = self._rosdata[topic_name].next()
         self.data_plot.add_curve(topic_name, topic_name, data_x, data_y)
@@ -208,6 +210,7 @@ class PlotWidget(QWidget):
     def remove_topic(self, topic_name):
         self._rosdata[topic_name].close()
         del self._rosdata[topic_name]
+        self._ordered_topics.remove(topic_name)
         self.data_plot.remove_curve(topic_name)
 
         self._subscribed_topics_changed()
@@ -217,6 +220,7 @@ class PlotWidget(QWidget):
             rosdata.close()
             self.data_plot.remove_curve(topic_name)
         self._rosdata = {}
+        self._ordered_topics = []
 
         self._subscribed_topics_changed()
 
